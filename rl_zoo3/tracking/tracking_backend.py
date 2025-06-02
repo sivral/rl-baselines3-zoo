@@ -21,7 +21,8 @@ class TrackingBackend(ABC):
         "version/SB3": f"v{sb3.__version__}",
         "version/sb3_contrib": f"v{sb3_contrib.__version__}",
         "version/rl_zoo3": f"v{rl_zoo3.__version__}",
-        "version/docker_image_hash": os.environ["DOCKER_IMAGE_HASH"],
+        # "version/docker_image_hash": os.environ["DOCKER_IMAGE_HASH"],
+        "version/docker_image_hash": os.environ.get("DOCKER_IMAGE_HASH", "no_docker"),
     }
 
     def __init__(self):

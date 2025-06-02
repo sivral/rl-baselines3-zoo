@@ -46,6 +46,17 @@ except ImportError:
     pass
 
 
+try:
+    from rl_zoo3.envs.aegis.aegis_env import AegisPusherEnv
+
+    gym.register(
+        id="AegisPusher",
+        entry_point="rl_zoo3.envs.aegis.aegis_env:AegisPusherEnv",
+    )
+except ImportError as e:
+    print(f"Could not import AegisPusherEnv: {e}")
+
+
 # Register no vel envs
 def create_no_vel_env(env_id: str) -> Callable[[Optional[str]], gym.Env]:
     def make_env(render_mode: Optional[str] = None) -> gym.Env:

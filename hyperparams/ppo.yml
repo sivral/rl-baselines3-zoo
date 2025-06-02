@@ -410,6 +410,25 @@ Swimmer-v4:
   learning_rate: !!float 6e-4
   gae_lambda: 0.98
 
+# Pusher-v5:
+#   <<: *mujoco-defaults
+#   n_timesteps: !!float 10000
+Pusher-v5:
+  n_envs: 1
+  policy: 'MlpPolicy'
+  n_timesteps: !!float 1e6
+  batch_size: 64
+  n_steps: 256
+  gamma: 0.99
+  learning_rate: 0.0003
+  ent_coef: 0.01
+  clip_range: 0.2
+  n_epochs: 10
+  gae_lambda: 0.95
+  max_grad_norm: 0.5
+  vf_coef: 0.5
+  policy_kwargs: "dict(net_arch=[256, 256])"
+
 # Tuned
 # 10 mujoco envs
 
@@ -580,3 +599,22 @@ Walker2d-v4:
   gae_lambda: 0.95
   max_grad_norm: 1
   vf_coef: 0.871923
+
+# === Real Robot envs
+
+AegisPusher:
+  # normalize: true
+  n_envs: 1
+  policy: 'MlpPolicy'
+  n_timesteps: !!float 1e6
+  batch_size: 64
+  n_steps: 256
+  gamma: 0.99
+  learning_rate: 0.0003
+  ent_coef: 0.01
+  clip_range: 0.2
+  n_epochs: 10
+  gae_lambda: 0.95
+  max_grad_norm: 0.5
+  vf_coef: 0.5
+  policy_kwargs: "dict(net_arch=[256, 256])"

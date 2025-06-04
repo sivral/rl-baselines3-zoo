@@ -1,0 +1,12 @@
+services:
+  rl-zoo3:
+    build:
+      context: ..
+      dockerfile: "docker/${DOCKERFILE:-Dockerfile}"
+    deploy:
+      resources:
+        reservations:
+          devices:
+          - driver: nvidia
+            count: 1
+            capabilities: [gpu]

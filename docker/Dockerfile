@@ -1,5 +1,5 @@
-ARG PARENT_IMAGE
-ARG USE_GPU
+ARG PARENT_IMAGE=stablebaselines/stable-baselines3
+ARG USE_GPU=TRUE
 FROM $PARENT_IMAGE
 
 USER root
@@ -8,6 +8,7 @@ RUN apt-get -y update \
     && apt-get -y install \
     ffmpeg \
     swig \
+    git \
     # For building box2d
     build-essential \
     && apt-get clean \

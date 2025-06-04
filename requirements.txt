@@ -21,4 +21,4 @@ optuna
 gitpython
 gymnasium[mujoco]
 genesis-world @ git+https://github.com/Genesis-Embodied-AI/Genesis.git@37c1ce62c70a0a4917684a6db5ae5b64174e660d
-mujoco==3.2.5
+mujoco==3.3.2

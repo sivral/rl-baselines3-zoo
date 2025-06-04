@@ -1,6 +1,6 @@
 gym==0.26.2
 stable-baselines3[extra_no_roms,tests,docs]>=2.3.0,<3.0
-box2d-py==2.3.8
+# box2d-py==2.3.8
 pybullet_envs_gymnasium>=0.4.0
 # minigrid
 cloudpickle>=2.2.1
@@ -11,3 +11,14 @@ plotly
 # TODO: restore for wandb logging
 #wandb
 moviepy
+
+# Genesis pusher
+pyyaml
+huggingface_hub
+huggingface_sb3
+sb3_contrib
+optuna
+gitpython
+gymnasium[mujoco]
+genesis-world @ git+https://github.com/Genesis-Embodied-AI/Genesis.git@37c1ce62c70a0a4917684a6db5ae5b64174e660d
+mujoco==3.2.5

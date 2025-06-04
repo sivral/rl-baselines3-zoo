@@ -33,6 +33,7 @@ def track_git_repos(working_path: Path | None = None) -> Dict[str, str]:
     git_repos_commits = {}
     if working_path is None:
         working_path = _get_current_working_dir()
+    print(working_path)
     for p in working_path.rglob("*.git"):
         p = p.parent
         if not p.is_dir():
@@ -48,12 +49,12 @@ def track_git_repos(working_path: Path | None = None) -> Dict[str, str]:
             logger.warning(f"WARNING: {p} is a git repository, but contains the {IGNORE_REPO_FILENAME} file. Skipping.")
             continue
 
-        if repo.is_dirty():
-            raise UncommittedChangesError(
-                f"The repository {p} has uncommitted changes. "
-                f"If you want to omit this repository from tracking, create a new empty file '{IGNORE_REPO_FILENAME}' inside it."
-            )
-        git_repos_commits[p.name] = repo.head.commit.hexsha
+        # if repo.is_dirty():
+        #     raise UncommittedChangesError(
+        #         f"The repository {p} has uncommitted changes. "
+        #         f"If you want to omit this repository from tracking, create a new empty file '{IGNORE_REPO_FILENAME}' inside it."
+        #     )
+        # git_repos_commits[p.name] = repo.head.commit.hexsha
 
     return git_repos_commits
 

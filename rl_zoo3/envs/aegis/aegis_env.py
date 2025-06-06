@@ -206,8 +206,10 @@ class AegisPusherEnv(gym.Env):
             np.random.uniform(y_range[0], y_range[1]),
             np.random.uniform(z_range[0], z_range[1]),
         ], device=self.device)
+        default_quat = torch.tensor([0.0, 0.0, 0.0, 1.0], device=self.device)
 
         self.object.set_pos(rand_pos, zero_velocity=True)
+        self.object.set_quat(default_quat, zero_velocity=True)
         self.object_pos[:] = self.object.get_pos()
 
         self.actions[:] = 0.0

@@ -18,7 +18,7 @@ class AegisPusherEnv(gym.Env):
         super().__init__()
 
         if not gs._initialized:
-            gs.init(logging_level="warning")
+            gs.init(precision="32", backend=gs.gpu, logging_level="warning")
 
         if render_mode == "human":
             show_viewer = True
@@ -39,7 +39,7 @@ class AegisPusherEnv(gym.Env):
         self.reward_scales = ENV_CFG["reward_scales"]
 
         self.scene = gs.Scene(
-            sim_options=gs.options.SimOptions(dt=self.dt, substeps=5),
+            sim_options=gs.options.SimOptions(dt=self.dt, substeps=10),
             viewer_options=gs.options.ViewerOptions(
                 max_FPS=int(0.5 / self.dt),
                 camera_pos=(2.0, 0.0, 2.5),

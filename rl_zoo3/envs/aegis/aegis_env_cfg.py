@@ -28,7 +28,7 @@ ENV_CFG = {
     "object_spawn_y": [0.34, 0.66],
     "object_spawn_z": [0.84, 0.85],
     "target_pos": [-0.1, 0.76, 0.84],
-    "target_threshold": 0.06,
+    "target_threshold": 0.04,
     "episode_length_s": 5.0,
     "dt": 0.05,
     "action_scale": 0.5,

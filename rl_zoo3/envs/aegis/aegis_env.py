@@ -77,6 +77,17 @@ class AegisPusherEnv(gym.Env):
             material=gs.materials.Rigid(friction=0.6, coup_friction=0.6),
         )
 
+        self.target = self.scene.add_entity(
+            gs.morphs.Cylinder(
+                height=0.00001,
+                radius=0.04,
+                pos=(-0.1, 0.76, 0.82),
+                fixed=True
+            ),
+            surface=gs.surfaces.Default(color=(1.0, 0.0, 0.0)),
+            material=gs.materials.Rigid(friction=0.6, coup_friction=0.6),
+        )
+
         self.object = self.scene.add_entity(
             gs.morphs.Box(
                 size=(0.04, 0.04, 0.04),

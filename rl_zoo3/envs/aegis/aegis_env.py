@@ -18,7 +18,7 @@ class AegisPusherEnv(gym.Env):
         super().__init__()
 
         if not gs._initialized:
-            gs.init(logging_level="warning")
+            gs.init(precision="32", backend=gs.gpu, logging_level="warning")
 
         if render_mode == "human":
             show_viewer = True
@@ -39,7 +39,7 @@ class AegisPusherEnv(gym.Env):
         self.reward_scales = ENV_CFG["reward_scales"]
 
         self.scene = gs.Scene(
-            sim_options=gs.options.SimOptions(dt=self.dt, substeps=5),
+            sim_options=gs.options.SimOptions(dt=self.dt, substeps=10),
             viewer_options=gs.options.ViewerOptions(
                 max_FPS=int(0.5 / self.dt),
                 camera_pos=(2.0, 0.0, 2.5),
@@ -64,6 +64,7 @@ class AegisPusherEnv(gym.Env):
                 file='rl_zoo3/envs/aegis/description/aegis.urdf', fixed=True,
                 pos=ENV_CFG["robot_pos"],
             ),
+            material=gs.materials.Rigid(friction=0.6, coup_friction=0.6),
         )
 
         self.table = self.scene.add_entity(
@@ -71,14 +72,29 @@ class AegisPusherEnv(gym.Env):
                 size=(0.84, 0.55, 0.82),
                 pos=ENV_CFG["table_pos"],
                 fixed=True,
-            )
+            ),
+            surface=gs.surfaces.Default(color=(0.5, 0.5, 0.5)),
+            material=gs.materials.Rigid(friction=0.6, coup_friction=0.6),
         )
 
-        self.cube = self.scene.add_entity(
+        self.target = self.scene.add_entity(
+            gs.morphs.Cylinder(
+                height=0.00001,
+                radius=0.04,
+                pos=(-0.1, 0.76, 0.82),
+                fixed=True
+            ),
+            surface=gs.surfaces.Default(color=(1.0, 0.0, 0.0)),
+            material=gs.materials.Rigid(friction=0.6, coup_friction=0.6),
+        )
+
+        self.object = self.scene.add_entity(
             gs.morphs.Box(
                 size=(0.04, 0.04, 0.04),
                 pos=(0.0, 0.7, 0.84),
-            )
+            ),
+            surface=gs.surfaces.Default(color=(1.0, 1.0, 1.0)),
+            material=gs.materials.Rigid(rho=8000.0, friction=0.6, coup_friction=0.6),
         )
 
         self.scene.build()
@@ -128,7 +144,7 @@ class AegisPusherEnv(gym.Env):
         self.dof_vel = self.robot.get_dofs_velocity(self.motor_dofs)
         self.tcp_pos = self.robot.get_links_pos()[7, :]
         self.tcp_vel = self.robot.get_links_vel()[7, :]
-        self.object_pos = self.cube.get_pos()
+        self.object_pos = self.object.get_pos()
 
         dist_to_target = torch.norm(self.target_pos - self.object_pos)
         success = bool((dist_to_target < self.target_threshold).item())
@@ -201,9 +217,11 @@ class AegisPusherEnv(gym.Env):
             np.random.uniform(y_range[0], y_range[1]),
             np.random.uniform(z_range[0], z_range[1]),
         ], device=self.device)
+        default_quat = torch.tensor([0.0, 0.0, 0.0, 1.0], device=self.device)
 
-        self.cube.set_pos(rand_pos, zero_velocity=True)
-        self.object_pos[:] = self.cube.get_pos()
+        self.object.set_pos(rand_pos, zero_velocity=True)
+        self.object.set_quat(default_quat, zero_velocity=True)
+        self.object_pos[:] = self.object.get_pos()
 
         self.actions[:] = 0.0
         self.last_actions[:] = 0.0

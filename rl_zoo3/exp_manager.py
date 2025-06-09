@@ -806,7 +806,7 @@ class ExperimentManager:
             assert model.env is not None
             model.env.close()
             eval_env.close()
-        except (AssertionError, ValueError) as e:
+        except (AssertionError, ValueError, RuntimeError) as e:
             # Sometimes, random hyperparams can generate NaN
             # Free memory
             assert model.env is not None

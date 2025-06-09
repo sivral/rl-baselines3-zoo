@@ -11,3 +11,14 @@ plotly
 # TODO: restore for wandb logging
 #wandb
 moviepy
+mlflow
+pymysql
+pyyaml
+huggingface_hub
+huggingface_sb3
+sb3_contrib
+optuna
+gitpython
+gymnasium[mujoco]
+mujoco==3.3.2
+genesis-world @ git+https://github.com/Genesis-Embodied-AI/Genesis.git@37c1ce62c70a0a4917684a6db5ae5b64174e660d
